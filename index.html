@@ -14,7 +14,7 @@
         <meta property="og:type" content="website">
         <meta property="og:title" content="Hệ Thống AHP - Tư vấn chọn nhà phố">
         <meta property="og:description" content="Dùng AHP để xếp hạng và gợi ý nhà phù hợp theo trọng số khách hàng. Hiển thị biểu đồ, danh sách, bản đồ và chatbot tư vấn.">
-        <meta property="og:image" content="images/Logo_DHTNMT.png">
+        <meta property="og:image" content="images/logo.jpg">
         <meta property="og:url" content="https://your-domain.example/">
         <meta name="twitter:card" content="summary_large_image">
 
@@ -27,7 +27,7 @@
                     "@type": "Organization",
                     "name": "SMART HOUSE AHP - Đại Học Tài Nguyên & Môi Trường",
                     "url": "https://your-domain.example/",
-                    "logo": "https://your-domain.example/images/Logo_DHTNMT.png"
+                    "logo": "https://your-domain.example/images/logo.jpg"
                 },
                 {
                     "@type": "WebSite",
@@ -115,7 +115,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-brand-bar">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="images/logo.png" alt="Logo" class="logo-img me-3">
+                <img src="images/logo.jpg" alt="Logo DHTNMT" class="logo-img me-3" onerror="this.onerror=null; this.src='images/logo.jpg'">
                 <div class="d-flex flex-column text-white">
                     <div style="font-size:0.85rem; font-weight:700; letter-spacing:0.6px; text-transform: uppercase;">Bộ Tài Nguyên và Môi Trường</div>
                     <strong style="font-size:1.1rem; margin-top:2px;">ĐẠI HỌC TÀI NGUYÊN & MÔI TRƯỜNG TP.HCM</strong>
@@ -209,8 +209,12 @@
             <div class="col-lg-4">
                 <div class="card card-custom p-3 mb-3">
             <div class="position-relative sample-card">
-                            <img id="sampleHouseImg" src="images/Nha1.jfif" class="img-fluid rounded" style="height:220px; width:100%; object-fit:cover; cursor:pointer; border-radius:12px;">
-                            <div class="carousel-caption" style="left:0; right:0; bottom:72px; margin:0 auto; width:fit-content; background: rgba(0,0,0,0.55); padding:10px 20px; border-radius:8px; z-index:6;">Xem nhà mẫu</div>
+                <img id="sampleHouseImg" 
+     src="images/Nha1.jfif" 
+     class="img-fluid house-card-img" 
+     alt="Mô tả căn nhà số 1">            
+                
+                            /*<div class="carousel-caption" style="left:0; right:0; bottom:72px; margin:0 auto; width:fit-content; background: rgba(0,0,0,0.55); padding:10px 20px; border-radius:8px; z-index:6;">Xem nhà mẫu</div>*/
                             <button id="samplePrev" class="btn btn-dark" style="position:absolute; left:8px; top:50%; transform:translateY(-50%); opacity:0.95;">◀</button>
                             <button id="sampleNext" class="btn btn-dark" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); opacity:0.95;">▶</button>
                 <div style="position:absolute; left:0; right:0; bottom:12px; padding:0 12px;">
