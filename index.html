@@ -1053,10 +1053,21 @@
                 const imgEl = document.getElementById('sampleHouseImg');
                 if(imgEl){
                     const imgNumber = ((sampleIndex) % AVAILABLE_IMAGE_COUNT) + 1;
-                    imgEl.src = `images/nha${imgNumber}.jpg`;
+                    const pngSrc = `./images/nha${imgNumber}.png`;
+                    const jpgSrc = `./images/nha${imgNumber}.jpg`;
+                    imgEl.onerror = function(){
+                        try{
+                            if(this.src && this.src.toLowerCase().endsWith('.png')){ this.onerror = null; this.src = jpgSrc; }
+                            else { this.onerror = null; this.src = './images/nha1.png'; }
+                        }catch(e){ this.onerror = null; this.src = './images/nha1.png'; }
+                    };
+                    imgEl.src = pngSrc;
                 }
                 const display = document.getElementById('sampleIndexDisplay');
-                if(display) display.textContent = `${sampleIndex+1} / ${order.length || dataList.length}`;
+                const houseIdx = document.getElementById('houseIndexDisplay');
+                const txt = `${sampleIndex+1} / ${order.length || dataList.length}`;
+                if(display) display.textContent = txt;
+                if(houseIdx) houseIdx.textContent = txt;
                 // mark in list UI
                 const listEl = document.getElementById('houseListScroll');
                 if(listEl){
@@ -1371,10 +1382,28 @@
             };
 
             let fadeTimer = null;
+            let isTransitioning = false;
+            let pendingIdx = null;
+            let pendingSelect = null;
+
+            const animatePulse = (id)=>{
+                try{
+                    const listEl = document.getElementById('houseListScroll');
+                    if(!listEl) return;
+                    const sel = listEl.querySelector(`[data-id="${id}"]`);
+                    if(!sel) return;
+                    sel.classList.add('highlight-glow');
+                    sel.scrollIntoView({behavior:'smooth', block:'center', inline:'nearest'});
+                    setTimeout(()=> sel.classList.remove('highlight-glow'), 900);
+                }catch(e){ console.warn('animatePulse err', e); }
+            };
 
             const updateDisplay = ()=>{
                 const currentOrder = getSampleOrder();
-                display.textContent = `${sampleIndex+1} / ${currentOrder.length}`;
+                const txt = `${sampleIndex+1} / ${currentOrder.length}`;
+                if(display) display.textContent = txt;
+                const houseIdx = document.getElementById('houseIndexDisplay');
+                if(houseIdx) houseIdx.textContent = txt;
             };
 
             const setIdx = (i)=>{
@@ -1382,37 +1411,39 @@
                 if(currentOrder.length===0) return;
                 const next = ((i % currentOrder.length) + currentOrder.length) % currentOrder.length;
                 if(next === sampleIndex) return;
-                console.log('sample.setIdx next=', next, 'currentOrderLen=', currentOrder.length);
+                // if already animating, queue the latest request
+                if(isTransitioning){ pendingIdx = next; return; }
+                isTransitioning = true;
                 imgEl.classList.add('fading');
                 clearTimeout(fadeTimer);
                 fadeTimer = setTimeout(()=>{
                     sampleIndex = next;
                     const id = currentOrder[sampleIndex];
-                    // pick an available image using the visible sampleIndex (safe mapping)
                     const imgNumber = ((sampleIndex) % AVAILABLE_IMAGE_COUNT) + 1;
                     const nextSrc = `./images/nha${imgNumber}.png`;
                     imgEl.src = nextSrc;
                     imgEl.alt = `Nhà mẫu ${imgNumber} - ${id}`;
-                    // keep slider in-range for current order
                     slider.max = Math.max(0, currentOrder.length-1);
                     slider.value = sampleIndex;
                     updateDisplay();
-                    // update caption text to reflect current property
                     const capTitle = document.getElementById('sampleCaptionTitle');
                     const capSub = document.getElementById('sampleCaptionSub');
                     if(capTitle) capTitle.textContent = dataList.find(dd=>dd.id===id)?.name || id;
                     if(capSub){ const dd = dataList.find(x=>x.id===id) || {}; capSub.textContent = `Vị trí: ${dd.area || '-'} | Giá: ${dd.price? (dd.price/1000000000).toFixed(1) + ' Tỷ' : '-'}`; }
-                    // visually select in the main list and highlight across UI
                     const listEl = document.getElementById('houseListScroll');
                     if(listEl){
                         listEl.querySelectorAll('.house-card-item').forEach(r=>r.classList.remove('selected'));
                         const sel = listEl.querySelector(`[data-id="${id}"]`);
                         if(sel) sel.classList.add('selected');
                     }
-                    console.log('sample.show id=', id, 'img.src=', imgEl.src);
                     highlightSelection(id);
-                    requestAnimationFrame(()=> imgEl.classList.remove('fading'));
-                }, 220);
+                    requestAnimationFrame(()=>{
+                        imgEl.classList.remove('fading');
+                        isTransitioning = false;
+                        if(pendingIdx !== null){ const to = pendingIdx; pendingIdx = null; setIdx(to); return; }
+                        if(pendingSelect){ const ps = pendingSelect; pendingSelect = null; try{ highlightSelection(ps); animatePulse(ps); }catch(e){console.warn(e);} }
+                    });
+                }, 320);
             };
 
             // wire controls
@@ -1422,8 +1453,10 @@
             document.getElementById('sampleNextSmall').addEventListener('click', ()=> setIdx(sampleIndex+1));
             imgEl.addEventListener('click', ()=> {
                 const currentOrder = getSampleOrder();
-                const id = currentOrder[sampleIndex] || dataList[sampleIndex].id;
-                highlightSelection(id);
+                const id = currentOrder[sampleIndex] || (dataList[sampleIndex] && dataList[sampleIndex].id);
+                if(!id) return;
+                if(isTransitioning){ pendingSelect = id; return; }
+                try{ highlightSelection(id); animatePulse(id); }catch(e){ console.warn('img click select err', e); }
             });
 
             // wire detail + select buttons
