@@ -41,40 +41,6 @@
                 }
             ]
         }
-            <script>
-    // 1. Khai báo danh sách tên file ảnh (Phải khớp chính xác tên trên GitHub)
-    const images = [
-        "./images/nha1.png",
-        "./images/nha2.png",
-        "./images/nha3.png",
-        "./images/nha4.png",
-        "./images/nha5.png",
-        "./images/nha6.png"
-    ];
-
-    let currentIndex = 0; // Chỉ số hình hiện tại
-
-    function changeImage(direction) {
-        // 2. Tính toán chỉ số mới
-        currentIndex += direction;
-
-        // Nếu vượt quá hình cuối thì quay lại hình đầu
-        if (currentIndex >= images.length) {
-            currentIndex = 0;
-        }
-        // Nếu lùi quá hình đầu thì nhảy tới hình cuối
-        if (currentIndex < 0) {
-            currentIndex = images.length - 1;
-        }
-
-        // 3. Cập nhật thuộc tính src và alt của thẻ img
-        const imgElement = document.getElementById('sampleHouseImg');
-        imgElement.src = images[currentIndex];
-        imgElement.alt = "Mô tả căn nhà số " + (currentIndex + 1);
-        
-        console.log("Đang hiển thị:", images[currentIndex]); // Kiểm tra lỗi nếu hình không lên
-    }
-</script>
         </script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
