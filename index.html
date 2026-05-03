@@ -1442,8 +1442,7 @@
             }); }
 
             // fallback handler if an image is missing -> show first sample as safe default
-            imgEl.onerror = ()=>{ imgEl.onerror = null; imgEl.src = 'images/nha1.jpg'; };
-
+            imgEl.onerror = ()=>{ imgEl.onerror = null; imgEl.src = './images/nha1.png'; };
             slider.addEventListener('input', (e)=>{
                 const idx = +e.target.value;
                 setIdx(idx);
