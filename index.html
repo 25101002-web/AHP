@@ -14,7 +14,7 @@
         <meta property="og:type" content="website">
         <meta property="og:title" content="Hệ Thống AHP - Tư vấn chọn nhà phố">
         <meta property="og:description" content="Dùng AHP để xếp hạng và gợi ý nhà phù hợp theo trọng số khách hàng. Hiển thị biểu đồ, danh sách, bản đồ và chatbot tư vấn.">
-        <meta property="og:image" content="images/logo.jpg">
+        <meta property="og:image" content="./images/logo.png">
         <meta property="og:url" content="https://your-domain.example/">
         <meta name="twitter:card" content="summary_large_image">
 
@@ -27,7 +27,7 @@
                     "@type": "Organization",
                     "name": "SMART HOUSE AHP - Đại Học Tài Nguyên & Môi Trường",
                     "url": "https://your-domain.example/",
-                    "logo": "https://your-domain.example/images/logo.jpg"
+                    "logo": "https://your-domain.example/images/logo.png"
                 },
                 {
                     "@type": "WebSite",
@@ -115,7 +115,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-brand-bar">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="images/logo.jpg" alt="Logo DHTNMT" class="logo-img me-3" onerror="this.onerror=null; this.src='images/logo.jpg'">
+                <img src="images/logo.png" alt="Logo DHTNMT" class="logo-img me-3" onerror="this.onerror=null; this.src='images/logo.png'">
                 <div class="d-flex flex-column text-white">
                     <div style="font-size:0.85rem; font-weight:700; letter-spacing:0.6px; text-transform: uppercase;">Bộ Tài Nguyên và Môi Trường</div>
                     <strong style="font-size:1.1rem; margin-top:2px;">ĐẠI HỌC TÀI NGUYÊN & MÔI TRƯỜNG TP.HCM</strong>
@@ -210,7 +210,7 @@
                 <div class="card card-custom p-3 mb-3">
             <div class="position-relative sample-card">
                 <img id="sampleHouseImg" 
-     src="images/nha1.jpg" 
+     src="images/nha1.png" 
      class="img-fluid house-card-img" 
      alt="Mô tả căn nhà số 1">            
                 
@@ -1379,7 +1379,7 @@
                     const id = currentOrder[sampleIndex];
                     // pick an available image using the visible sampleIndex (safe mapping)
                     const imgNumber = ((sampleIndex) % AVAILABLE_IMAGE_COUNT) + 1;
-                    const nextSrc = `images/nha${imgNumber}.jpg`;
+                    const nextSrc = `./images/nha${imgNumber}.png`;
                     imgEl.src = nextSrc;
                     imgEl.alt = `Nhà mẫu ${imgNumber} - ${id}`;
                     // keep slider in-range for current order
